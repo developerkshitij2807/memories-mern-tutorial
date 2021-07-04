@@ -43,7 +43,7 @@ As we know we are using MongoDB database with our application, hence to connect 
 ```javascript
     // MongoDB Atlas connection URL
 const CONNECTION_URL =
-  'mongodb+srv://kshitij-admin:kshitijmemoriesadmin@cluster0.mdqnv.mongodb.net/test';
+  'mongodb+srv://<username>:<password>@cluster0.mdqnv.mongodb.net/test';
 
 const PORT = process.env.PORT || 5000;
 
