@@ -40,7 +40,7 @@ As we know we are using MongoDB database with our application, hence to connect 
 - In there create a new project
 - In the new project, create a new cluster
 - Connect the cluster to MongoDB Atlas by the following code(s): - 
-code(
+```javascript
     // MongoDB Atlas connection URL
 const CONNECTION_URL =
   'mongodb+srv://kshitij-admin:kshitijmemoriesadmin@cluster0.mdqnv.mongodb.net/test';
@@ -57,5 +57,6 @@ mongoose
 
 mongoose.set('useFindAndModify', false);
 )
+```
 - Database will be connected and a success message will be displayed on the terminal window
 
