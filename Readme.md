@@ -15,7 +15,7 @@ Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media 
 - [redux](https://www.npmjs.com/package/redux): Redux is a predictable state container for JavaScript apps.
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk): Thunk middleware for Redux.
 
-#### Backend dependencies(T be installed in the server folder)
+#### Backend dependencies(To be installed in the server folder)
 - [body-parser](https://www.npmjs.com/package/body-parser) : Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 - [nodemon](https://www.npmjs.com/package/nodemon): nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 - [CORS](https://www.npmjs.com/package/cors):CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
@@ -60,3 +60,80 @@ mongoose.set('useFindAndModify', false);
 ```
 - Database will be connected and a success message will be displayed on the terminal window
 
+
+#### 4.) Creating a router 
+- Router directs the path API call should take in order to process the task. 
+- In the server folder create a folder called routes
+- In the routes folder create a file called posts
+- Example Shown below
+- Code(s): 
+    ```javascript
+        // posts.js file 
+        import express from 'express';
+        const router = express.Router();
+        // router operations if any 
+        export default router;
+
+        // index.js - to connect router and server
+        import postRoutes from './routes/posts.js';
+        app.use('/posts', postRoutes);
+    ```
+
+#### 5.) Creating a model
+- Model is the schema for the type of database needed for storing data
+- Follow similar steps as creating routes, but for model 
+- use the following example to create the database
+    ```javascript
+    const postSchema = mongoose.Schema({
+      title: String,
+      message: String,
+      creator: String, 
+      tags: [String], 
+      selectedFile: String,
+      likeCount:{
+          type: Number,
+          default: 0
+      },
+      createdAt: {
+          type: Date,
+          default: new Date()
+      } 
+    });
+
+
+    const PostMessage = mongoose.model('PostMessage', postSchema);
+
+    export default PostMessage;
+    ```
+
+### 6.) Creating a Controller 
+- Controller is the part where all the business logic of the application is done. 
+- Follow similar steps as in for routes 
+- Example Controller to read and create operations
+- ```javascript
+    import PostMessage from '../models/postMessage.js';
+
+    export const getPosts = async (req, res) => {
+      try {
+        const postMessages = await PostMessage.find();
+        res.status(200).json(postMessages);
+      } catch (error) {
+        res.status(404).json({message: error.message});
+      }
+    };
+
+    export const createPost = async (req, res) => {
+      post = req.body;
+
+      const newPost = PostMessage(post);
+      try {
+        await newPost.save();
+
+        res.status(201).json(newPost);
+      } catch (error) {
+        res.status(400).json({message: error.message});
+      }
+    };
+  ```
+
+  
