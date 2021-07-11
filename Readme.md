@@ -14,6 +14,7 @@ Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media 
 - [react-file-base64](https://www.npmjs.com/package/react-file-base64): Component for Converting Files to base64
 - [redux](https://www.npmjs.com/package/redux): Redux is a predictable state container for JavaScript apps.
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk): Thunk middleware for Redux.
+- [@material-ui/core](https://material-ui.com/getting-started/installation/): React components for faster and easier web development. Build your own design system, or start with Material Design.
 
 #### Backend dependencies(To be installed in the server folder)
 - [body-parser](https://www.npmjs.com/package/body-parser) : Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
@@ -106,7 +107,7 @@ mongoose.set('useFindAndModify', false);
     export default PostMessage;
     ```
 
-### 6.) Creating a Controller 
+#### 6.) Creating a Controller 
 - Controller is the part where all the business logic of the application is done. 
 - Follow similar steps as in for routes 
 - Example Controller to read and create operations
@@ -135,5 +136,39 @@ mongoose.set('useFindAndModify', false);
       }
     };
   ```
+
+
+  #### 7.) Frontend Setup 
+- Most of the development done on the frontend part of the application was done using the material-ui library. 
+- To use it we have to navigate to the component library and there add a seperate custom file called style.js and we can create our custom styles in the following way 
+- ```javascript
+      import { makeStyles } from '@material-ui/core/styles';
+
+      export default makeStyles((theme) => ({
+        root: {
+          '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+          },
+        },
+        paper: {
+          padding: theme.spacing(2),
+        },
+        form: {
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        },
+        fileInput: {
+          width: '97%',
+          margin: '10px 0',
+        },
+        buttonSubmit: {
+          marginBottom: 10,
+        },
+      }));
+  ```
+
+
+  
 
   
