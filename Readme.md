@@ -177,7 +177,7 @@ mongoose.set('useFindAndModify', false);
   - Single store and single state tree enables powerful techniques - Logging - API Handling - Undo/redo - state/persistence - "time travelling debugging"
 
   Properties of redux : 
-  [redux](https://krasimirtsonev.com/blog/article/my-take-on-redux-architecture/assets/redux-architecture.jpg)
+  ![redux](https://krasimirtsonev.com/blog/article/my-take-on-redux-architecture/assets/redux-architecture.jpg)
   - State: Plain Javascript object
   - Actions: Plain Javascript object with a type field that specifies how to change something in state, payloads of information sends data from your application to the store. 
     - Action Types: A type property, that indicates the type of action to be performed. Rest of the object contains the data neccessary for the action
