@@ -15,6 +15,7 @@ Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media 
 - [redux](https://www.npmjs.com/package/redux): Redux is a predictable state container for JavaScript apps.
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk): Thunk middleware for Redux.
 - [@material-ui/core](https://material-ui.com/getting-started/installation/): React components for faster and easier web development. Build your own design system, or start with Material Design.
+- [react-redux](https://react-redux.js.org/): React Redux is maintained by the Redux team, and kept up-to-date with the latest APIs from Redux and React.
 
 #### Backend dependencies(To be installed in the server folder)
 - [body-parser](https://www.npmjs.com/package/body-parser) : Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
@@ -111,7 +112,7 @@ mongoose.set('useFindAndModify', false);
 - Controller is the part where all the business logic of the application is done. 
 - Follow similar steps as in for routes 
 - Example Controller to read and create operations
-- ```javascript
+ ```javascript
     import PostMessage from '../models/postMessage.js';
 
     export const getPosts = async (req, res) => {
@@ -138,7 +139,7 @@ mongoose.set('useFindAndModify', false);
   ```
 
 
-  #### 7.) Frontend Setup 
+#### 7.) Frontend Setup 
 - Most of the development done on the frontend part of the application was done using the material-ui library. 
 - To use it we have to navigate to the component library and there add a seperate custom file called style.js and we can create our custom styles in the following way 
 - ```javascript
@@ -167,6 +168,95 @@ mongoose.set('useFindAndModify', false);
         },
       }));
   ```
+
+#### 8.) Redux Setup
+- ##### Redux Intro: 
+  Redux is a predictable state container for JavaScript apps. We use redux to avoid local state storage use and use a global state storage. 
+  Advantages of redux : 
+  - There is a single source of truth - Single state object - state is read-only - changes are made with pure functions - takes previous state and actions and returns the next state
+  - Single store and single state tree enables powerful techniques - Logging - API Handling - Undo/redo - state/persistence - "time travelling debugging"
+
+  Properties of redux : 
+  [redux](https://krasimirtsonev.com/blog/article/my-take-on-redux-architecture/assets/redux-architecture.jpg)
+  - State: Plain Javascript object
+  - Actions: Plain Javascript object with a type field that specifies how to change something in state, payloads of information sends data from your application to the store. 
+    - Action Types: A type property, that indicates the type of action to be performed. Rest of the object contains the data neccessary for the action
+    - Action Creators: Encapsulate the process of creating action object, and returns the object. Results action object can be passed to store through dispatch.
+
+  - Reducer: Pure functions that the current state and the action have
+
+  ###### Note: - 
+  Action & Reducers  
+  - Does not mutate the state  
+  - actions typically handled through a switch statement  
+  - switching on the action type 
+  - return the previous state in default case
+
+  - Store: Holds the current state value 
+    - created using createStore(), supplies 3 methods 
+      - dispatch(): states state update with the provided object   
+      - getState(): returns the current stored state value 
+      - subscribe(): accepts a callback function, that will be run everytime action is dispatched
+
+  - Middleware: Forms the pipeline the wraps around the dispatch 
+    - Pass actions onward 
+    - Provides the capability to run code after an action is dispatched, but before it reaches the middleware 
+    - Third party extension point 
+    - ex. dogging, API calls 
+    - Restart the dispatch pipeline 
+    - Acess the store state
+
+  - Thunk: Can be used to delay the dispatch of an action 
+    - Dispatch only if a certain condition is met 
+    - Inner function receives the dispatch and getState() store methods
+
+- ##### Basic Setup 
+  - In the folder src directory create a folder called redux(all redux related code goes here).
+    - Inside the redux folder create two folders reducers and actions
+      - In the reducer folder we create two files index.js(to combine all the reducers used for the application) and posts.js(where we will be creating the post reducer)
+      ```javascript
+          // index.js file
+          import { combineReducers } from "redux";
+
+          import posts from "./posts";
+
+          // This is the root reducer where all the reducers present for the application combine. 
+          export default combineReducers({ posts });
+
+          // posts.js file
+          /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
+
+          // posts reducer
+          export default (posts = [], action) => {
+            switch (action.type) {
+              case "FETCH_POSTS":
+                return posts;
+              case "CREATE_POST":
+                return posts;
+              default:
+                return posts;
+            }
+          };
+      ```
+  - To connect the react application to the store we will now 
+    - import Provider, which will allow our react application to connect to the redux store
+    - import reducers, thunk, createStore,applyMiddleware and compose(write their functions incase we miss in the course)
+    - connect the store and the application 
+  ```javascript
+    //redux
+    import { Provider } from "react-redux";
+    import thunk from "redux-thunk";
+    import { createStore, applyMiddleware, compose } from "redux";
+
+    import reducers from "./redux/reducers";
+
+    const store = createStore(reducers, compose(applyMiddleware(thunk)));
+
+    // connecting the store and the application 
+    (<Provider store={store}></Provider>
+  ```  
+
+
 
 
   
