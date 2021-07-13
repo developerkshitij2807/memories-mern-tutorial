@@ -10,10 +10,10 @@ const app = express();
 app.use(bodyParser.json({limit: '30mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '30mb', extended: true}));
 
+app.use(cors());
+
 // Connecting server to router using middleware
 app.use('/posts', postRoutes);
-
-app.use(cors());
 
 // MongoDB Atlas connection URL
 const CONNECTION_URL =

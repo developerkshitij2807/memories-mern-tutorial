@@ -255,6 +255,44 @@ mongoose.set('useFindAndModify', false);
     // connecting the store and the application 
     (<Provider store={store}></Provider>
   ```  
+#### 9.) Connecting Redux to Frontend
+  - In the App.js file, we need to connect the redux actions 
+    ```javascript
+    // importing the actions from redux
+    import {getPosts} from "./redux/actions/posts";
+
+    // in the component we will now connect use hooks and dispatch 
+    const dispatch = useDispatch();
+    useEffect(() => {
+      dispatch(getPosts);
+    }, [dispatch]);
+    ```
+  - Now we will create actions in the redux 
+    ```javascript
+    import * as api from "../../api";
+
+    //Action Creators
+
+    // this method of allowing 'async(dispatch)' is possible through the use of redux thunk
+    export const getPosts = () => async (dispatch) => {
+      try {
+        const { data } = await api.fetchPosts();
+        dispatch({ type: "FETCH_POSTS", payload: data });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    ```
+  - Update the reducer file by return action.payload
+  
+  - Finally, in the Posts.js file use react-hooks to use the redux state
+  ```javascript
+     import { useSelector } from "react-redux";
+     // in the component use it by the following method
+     const posts = useSelector((state) => state.posts);
+  ```
+
+
 
 
 
