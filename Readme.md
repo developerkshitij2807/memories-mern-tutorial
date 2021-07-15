@@ -16,6 +16,7 @@ Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media 
 - [redux-thunk](https://www.npmjs.com/package/redux-thunk): Thunk middleware for Redux.
 - [@material-ui/core](https://material-ui.com/getting-started/installation/): React components for faster and easier web development. Build your own design system, or start with Material Design.
 - [react-redux](https://react-redux.js.org/): React Redux is maintained by the Redux team, and kept up-to-date with the latest APIs from Redux and React.
+- [@material-ui/icons](https://material-ui.com/components/material-icons/): Includes the 1,100+ official Material icons converted to SvgIcon components.
 
 #### Backend dependencies(To be installed in the server folder)
 - [body-parser](https://www.npmjs.com/package/body-parser) : Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
@@ -292,7 +293,63 @@ mongoose.set('useFindAndModify', false);
      const posts = useSelector((state) => state.posts);
   ```
 
+#### 10.) Connecting Frontend and Backend(Tricky)
+- we will first create templates for frontend using our frontend library material/ui-core 
+- now, we will pass the data fetched from backend(using redux) to each component 
+```javascript
+     const posts = useSelector((state) => state.posts);
+     {posts.map((post) => {
+        return (
+          <Grid key={post._id} item xs={12} sm={6}>
+            <Post post={post} />
+          </Grid>
+        );
+      })}
 
+      <Card className={classes.card}>
+      <CardMedia
+        className={classes.media}
+        title={props.post.title}
+        image={props.post.selectedFile}
+      />
+      <div className={classes.overlay}>
+        <Typography variant='h6'>{props.post.creator}</Typography>
+        <Typography variant='body2'>
+          {moment(props.post.createdAt).fromNow()}
+        </Typography>
+      </div>
+      <div className={classes.overlay2}>
+        <Button style={{ color: "white" }} size={"small"} onClick={() => {}}>
+          <MoreHorizIcon fontSize='medium' />
+        </Button>
+      </div>
+      <div className={classes.details}>
+        <Typography variant='body2' color='textSecondary' component='h2'>
+          {props.post.tags.map((tag) => `#${tag} `)}
+        </Typography>
+      </div>
+      <Typography
+        className={classes.title}
+        gutterBottom
+        variant='h5'
+        component='h2'>
+        {props.post.title}
+      </Typography>
+      <CardContent>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          {props.post.message}
+        </Typography>
+      </CardContent>
+      <CardActions className={classes.cardActions}>
+        <Button size='small' color='primary' onClick={() => {}}>
+          <ThumbUpAltIcon />
+        </Button>
+        <Button size='small' color='primary' onClick={() => {}}>
+          <DeleteIcon fontSize='small' /> Delete
+        </Button>
+      </CardActions>
+    </Card>
+```
 
 
 
