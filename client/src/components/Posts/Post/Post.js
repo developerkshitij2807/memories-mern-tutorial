@@ -31,7 +31,10 @@ const Post = (props) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: "white" }} size={"small"} onClick={() => {}}>
+        <Button
+          style={{ color: "white" }}
+          size={"small"}
+          onClick={() => props.setCurrentId(props.post._id)}>
           <MoreHorizIcon fontSize='medium' />
         </Button>
       </div>

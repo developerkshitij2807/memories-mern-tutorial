@@ -351,9 +351,55 @@ mongoose.set('useFindAndModify', false);
     </Card>
 ```
 
+##### 11.) Updating the posts
+- first create a route and controller for the posts
+  ```javascript
+      // route to update requires a patch request
+     router.patch('/:id', updatePost);
+     // controller 
+     export const updatePost = async (req, res) => {
+      const { id: _id } = req.params;
+      const post = req.body;
 
+      if (!mongoose.Types.ObjectId.isValid(_id))
+        return res.status(404).send("Error, No memory with this ID");
 
+      const updatedPost = await PostMessage.findByIdAndUpdate(
+        _id,
+        { ...post, _id },
+        {
+          new: true
+        }
+      );
 
-  
+      res.status(201).json(updatedPost);
+    };
 
-  
+  ```
+- now we update the frontend to get api calls from backend 
+  - updating the redux
+    - actions 
+      ```javascript
+        export const updatePost = (postID, updatedPost) => async (dispatch) => {
+          try {
+            const { data } = await api.updatePost(postID, updatedPost);
+            dispatch({ type: constants.UPDATE_POST, payload: data });
+          } catch (error) {
+            console.log(error.message);
+          }
+        };
+      ```
+    - reducer
+    ```javascript
+       case constants.UPDATE_POST:
+        return posts.map((post) =>
+          post._id === action.payload ? action.payload : post
+        );
+    ```
+  - adding the api
+  ```javascript
+      // Our patch request will recieve an post id and updated data of new post, which will be later updated 
+      export const updatePost = (postId, updatedPost) =>
+      axios.patch(`${url}/${postId}`, updatedPost);
+  ```
+
