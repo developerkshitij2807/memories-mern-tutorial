@@ -1,0 +1,22 @@
+{
+  "name": "memories-mern-tutorial",
+  "version": "1.0.0",
+  "description": "Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media project. This allows users to post interesting events.  \r # Contents \r - [Project Creation Steps]\r - \r ## Project Creation Steps",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd client && npm start\" \"cd server && nodemon server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developerkshitij2807/memories-mern-tutorial.git"
+  },
+  "author": "Kshitij",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/developerkshitij2807/memories-mern-tutorial/issues"
+  },
+  "homepage": "https://github.com/developerkshitij2807/memories-mern-tutorial#readme",
+  "dependencies": {
+    "concurrently": "^6.2.0"
+  }
+}

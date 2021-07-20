@@ -23,7 +23,11 @@ const Posts = (props) => {
       {posts.map((post) => {
         return (
           <Grid key={post._id} item xs={12} sm={6}>
-            <Post post={post} setCurrentId={props.setCurrentId} />
+            <Post
+              key={post._id}
+              post={post}
+              setCurrentId={props.setCurrentId}
+            />
           </Grid>
         );
       })}

@@ -9,7 +9,7 @@ export const getPosts = () => async (dispatch) => {
     const { data } = await api.fetchPosts();
     dispatch({ type: constants.FETCH_POSTS, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -18,7 +18,7 @@ export const createPost = (newPost) => async (dispatch) => {
     await api.createPost(newPost);
     dispatch({ type: constants.CREATE_POST, payload: newPost });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
@@ -27,6 +27,15 @@ export const updatePost = (postID, updatedPost) => async (dispatch) => {
     const { data } = await api.updatePost(postID, updatedPost);
     dispatch({ type: constants.UPDATE_POST, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
+  }
+};
+
+export const deletePost = (postId) => async (disptach) => {
+  try {
+    await api.deletePost(postId);
+    disptach({ type: constants.DELETE_POST, payload: postId });
+  } catch (error) {
+    console.log(error);
   }
 };

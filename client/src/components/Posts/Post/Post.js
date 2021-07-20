@@ -14,8 +14,13 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 
 import moment from "moment";
 
+//redux
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../../redux/actions/ActionCreators";
+
 const Post = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Card className={classes.card}>
@@ -59,7 +64,10 @@ const Post = (props) => {
         <Button size='small' color='primary' onClick={() => {}}>
           <ThumbUpAltIcon />
         </Button>
-        <Button size='small' color='primary' onClick={() => {}}>
+        <Button
+          size='small'
+          color='primary'
+          onClick={() => dispatch(deletePost(props.post._id))}>
           <DeleteIcon fontSize='small' /> Delete
         </Button>
       </CardActions>

@@ -12,6 +12,8 @@ export default (posts = [], action) => {
       return [...posts, action.payload];
     case constants.FETCH_POSTS:
       return action.payload;
+    case constants.DELETE_POST:
+      return posts.filter((post) => post._id !== action.payload);
     default:
       return posts;
   }

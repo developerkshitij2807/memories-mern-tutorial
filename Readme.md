@@ -7,6 +7,9 @@ Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media 
 
 
 ### Initial Setup 
+### Root Folder Setup 
+- install [concurrently](): This is a special type of script that can just be run as npm start but other custom scripts require npm run preceding the rest of the script.
+- add a start script "start": "concurrently \"cd client && npm start\" \"cd server && nodemon server\""
 ### Dependencies to be installed 
 #### Frontend dependencies(To be installed in client folder)
 - [axios](https://www.npmjs.com/package/axios): Promise based HTTP client for the browser and node.js
@@ -351,7 +354,7 @@ mongoose.set('useFindAndModify', false);
     </Card>
 ```
 
-##### 11.) Updating the posts
+#### 11.) Updating the posts
 - first create a route and controller for the posts
   ```javascript
       // route to update requires a patch request
@@ -403,3 +406,64 @@ mongoose.set('useFindAndModify', false);
       axios.patch(`${url}/${postId}`, updatedPost);
   ```
 
+#### 11.) Deleting the post 
+- Server side
+  - Adding the route
+    ```javascript
+       router.delete("/:id", deletePost);
+    ```
+  - Creating the delete controller
+    ```javascript
+       export const deletePost = async (req, res) => {
+        const { id: _id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(_id))
+          return res.status(404).send("Error, No post with this ID");
+
+        await PostMessage.findByIdAndDelete(_id);
+
+        res.status(200).json({ message: "Deleted Successfully" });
+      };
+    ```
+
+- Client side 
+  - Creating action 
+  ```javascript
+     // Action Types
+     export const DELETE_POST = "DELETE_POST";
+     // Action Creators
+     export const deletePost = (postId) => async (disptach) => {
+      try {
+        await api.deletePost(postId);
+        disptach({ type: constants.DELETE_POST, payload: postId });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  ```
+
+  - Creating reducer
+  ```javascript
+     case constants.DELETE_POST:
+      return posts.filter((post) => post._id !== action.payload);
+  ```
+
+  - API calling
+  ```javascript
+      export const deletePost = (postId) => {
+        axios.delete(`${url}/${postId}`);
+      };
+  ```
+
+  - Connecting to the frontend 
+  ```javascript
+     //redux
+      import { useDispatch } from "react-redux";
+      import { deletePost } from "../../../redux/actions/ActionCreators";
+
+      // This method calls the delete function in the action creators 
+      dispatch(deletePost(props.post._id))
+  ```
+
+
+  
