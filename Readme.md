@@ -9,7 +9,7 @@ Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media 
 ### Initial Setup 
 ### Root Folder Setup 
 - install [concurrently](): This is a special type of script that can just be run as npm start but other custom scripts require npm run preceding the rest of the script.
-- add a start script "start": "concurrently \"cd client && npm start\" \"cd server && nodemon server\""
+- add a start script, "start": "concurrently \"cd client && npm start\" \"cd server && nodemon server\""
 ### Dependencies to be installed 
 #### Frontend dependencies(To be installed in client folder)
 - [axios](https://www.npmjs.com/package/axios): Promise based HTTP client for the browser and node.js
@@ -466,4 +466,29 @@ mongoose.set('useFindAndModify', false);
   ```
 
 
-  
+#### 12.) Deploying our Application 
+- ##### Server Side 
+  - Server side will be deployed to heroku 
+  - Login to heroku 
+  - Create your application 
+  - Go to deploy and follow the steps to deploy the application to your server
+  - [!steps](https://i.ibb.co/NWcJkTC/steps-image.jpg)
+  - Now after deploying we our backend will now be hosted on the heroku platform, so we can connect our API's using heroku now
+  ```javascript
+      // client/api/index.js --> change the url to heroku hosted url 
+      // initially, it was asking from the local server, i.e https://localhost:5000/posts
+      const url = "https://memories-mern-tutorial-kshitij.herokuapp.com/posts";
+  ```
+  - Now we no longer need to run our local server for our application 
+
+- ##### Client Side 
+  - For client deployment, we will now be using netlify
+  - Navigate to the client folder
+  - run command `npm run build`
+  - we will now have a build folder inside the client directory
+  - drag it and upload it to the netlify application and it few moments it will uploaded to the server
+  - Note: we can change the name of the our application available to custom site name(if available)
+  - Our application is now successfully deployed on both frontend and backend!
+
+
+

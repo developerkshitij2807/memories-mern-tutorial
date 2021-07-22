@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // material-ui/core
 import useStyles from "./styles";
@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 const Posts = (props) => {
   const classes = useStyles();
   const posts = useSelector((state) => state.posts);
+
+  
+  useEffect(() => {}, [posts]);
 
   return !posts.length ? (
     <CircularProgress color='inherit' />

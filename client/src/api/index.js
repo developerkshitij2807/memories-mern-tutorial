@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/posts";
+const url = "https://memories-mern-tutorial-kshitij.herokuapp.com/posts";
 
 export const fetchPosts = () => axios.get(url);
 
@@ -11,6 +11,8 @@ export const updatePost = (postId, updatedPost) =>
   axios.patch(`${url}/${postId}`, updatedPost);
 
 // Delete Request
-export const deletePost = (postId) => {
-  axios.delete(`${url}/${postId}`);
-};
+export const deletePost = (postId) => axios.delete(`${url}/${postId}`);
+
+// patch request
+export const incrementLikeCounter = (postId) =>
+  axios.patch(`${url}/${postId}/likePost`);

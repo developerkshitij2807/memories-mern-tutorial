@@ -16,7 +16,11 @@ import moment from "moment";
 
 //redux
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../../redux/actions/ActionCreators";
+import {
+  deletePost,
+  incrementLikeCounter
+} from "../../../redux/actions/ActionCreators";
+
 
 const Post = (props) => {
   const classes = useStyles();
@@ -61,8 +65,12 @@ const Post = (props) => {
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button size='small' color='primary' onClick={() => {}}>
-          <ThumbUpAltIcon />
+        <Button
+          size='small'
+          color='primary'
+          onClick={() => dispatch(incrementLikeCounter(props.post._id))}>
+          <ThumbUpAltIcon /> &nbsp;
+          {props.post.likeCount}
         </Button>
         <Button
           size='small'

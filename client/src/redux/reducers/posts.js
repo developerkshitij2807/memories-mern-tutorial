@@ -5,6 +5,7 @@ import * as constants from "../actions/ActionTypes";
 export default (posts = [], action) => {
   switch (action.type) {
     case constants.UPDATE_POST:
+    case constants.INCREMENT_LIKE_COUNT:
       return posts.map((post) =>
         post._id === action.payload ? action.payload : post
       );

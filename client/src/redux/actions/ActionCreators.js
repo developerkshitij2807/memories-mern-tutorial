@@ -39,3 +39,12 @@ export const deletePost = (postId) => async (disptach) => {
     console.log(error);
   }
 };
+
+export const incrementLikeCounter = (postId) => async (dispatch) => {
+  try {
+    const { data } = await api.incrementLikeCounter(postId);
+    dispatch({ type: constants.INCREMENT_LIKE_COUNT, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost, updatePost } from "../../redux/actions/ActionCreators";
 
 import useStyles from "./styles";
-const Form = (props) => {
+const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const [postData, setPostData] = useState({
     creator: "",
@@ -18,7 +18,7 @@ const Form = (props) => {
   });
 
   const post = useSelector((state) =>
-    props.currentId ? state.posts.find((p) => p._id === props.currentId) : null
+    currentId ? state.posts.find((p) => p._id === currentId) : null
   );
 
   useEffect(() => {
@@ -29,8 +29,8 @@ const Form = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (props.currentId) {
-      dispatch(updatePost(props.currentId, postData));
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
     } else {
       dispatch(createPost(postData));
     }
@@ -38,7 +38,7 @@ const Form = (props) => {
   };
 
   const clear = () => {
-    props.setCurrentId(null);
+    setCurrentId(null);
     setPostData({
       creator: "",
       title: "",
@@ -56,7 +56,7 @@ const Form = (props) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}>
         <Typography variant='h6'>
-          {props.currentId ? "Editing" : "Creating"} a Memory
+          {currentId ? "Editing" : "Creating"} a Memory
         </Typography>
         <TextField
           name='creator'
