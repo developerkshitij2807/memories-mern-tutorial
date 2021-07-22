@@ -60,3 +60,20 @@ export const deletePost = async (req, res) => {
 
   res.status(200).json({ message: "Deleted Successfully" });
 };
+
+// Like counter increment on hitting the like button
+export const incrementLikeCounter = async (req, res) => {
+  const { id: _id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("Error, No post with this ID");
+
+  const post = await PostMessage.findById(_id);
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    _id,
+    { likeCount: post.likeCount + 1 },
+    { new: true }
+  );
+
+  res.json(updatedPost);
+};

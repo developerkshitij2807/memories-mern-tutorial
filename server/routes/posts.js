@@ -5,7 +5,8 @@ import {
   createPost,
   getPosts,
   updatePost,
-  deletePost
+  deletePost,
+  incrementLikeCounter
 } from "../controller/posts.js";
 
 const router = express.Router();
@@ -16,5 +17,7 @@ router.post("/", createPost);
 router.patch("/:id", updatePost);
 // delete method self implemented
 router.delete("/:id", deletePost);
+// Like controller
+router.patch("/:id/likePost", incrementLikeCounter);
 
 export default router;
