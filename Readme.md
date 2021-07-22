@@ -472,7 +472,7 @@ mongoose.set('useFindAndModify', false);
   - Login to heroku 
   - Create your application 
   - Go to deploy and follow the steps to deploy the application to your server
-  - [!steps](https://i.ibb.co/NWcJkTC/steps-image.jpg)
+  - ![steps](https://i.ibb.co/NWcJkTC/steps-image.jpg)
   - Now after deploying we our backend will now be hosted on the heroku platform, so we can connect our API's using heroku now
   ```javascript
       // client/api/index.js --> change the url to heroku hosted url 
