@@ -492,3 +492,94 @@ mongoose.set('useFindAndModify', false);
 
 
 
+## Part 2 : - Adding Google Authentication, JWT and more... 
+### Dependencies to be installed 
+- #### Client Side 
+  - [jwt-decode](https://www.npmjs.com/package/jwt-decode): A small browser library that helps decoding JWTs token which are Base64Url encoded.
+  - [react-google-login](https://www.npmjs.com/package/react-google-login): A Google oAUth Sign-in / Log-in Component for React.
+  - [react-router-dom](https://www.npmjs.com/package/react-router-dom): DOM bindings for React Router.
+- #### Server Side
+  - [jsonwebtoken](https://www.npmjs.com/package/json-web-token): JSON Web Token (JWT) is a compact URL-safe means of representing claims to be transferred between two parties. The claims in a JWT are encoded as a JavaScript Object Notation (JSON) object that is used as the payload of a JSON Web Signature (JWS) structure or as the plaintext of a JSON Web Encryption (JWE) structure, enabling the claims to be digitally signed or MACed and/or encrypted.
+  - [bcryptjs](https://www.npmjs.com/package/bcryptjs):Optimized bcrypt in JavaScript with zero dependencies. Compatible to the C++ bcrypt binding on node.js and also working in the browser.
+
+#### 1.) Developing the Frontend 
+  - We will first refactor our code into 2 different components, Navbar and Home
+  - Now we will be using React routing, 
+    - wrap everything inside the Browser Router
+    ```javascript
+        <BrowserRouter>
+        <Container maxwidth='lg'>
+          <Navbar />
+          <Switch>
+            <Route path='/' exact component={Home}></Route>
+            <Route path='/auth' exact component={Auth}></Route>
+          </Switch>
+        </Container>
+      </BrowserRouter>
+    ```
+
+#### 2.) Authenticating the users 
+  - We will be doing authentication of the users using google login and local login
+  - Google Login Authentication
+    - adding it to the application
+    ```javascript
+        import { GoogleLogin } from "react-google-login";
+        <GoogleLogin
+            clientId={clientID}
+            render={(renderProps) => (
+              <Button
+                className={classes.googleButton}
+                color='primary'
+                fullWidth
+                onClick={renderProps.onClick}
+                // disabled={renderProps.disabled}
+                startIcon={<icon />}
+                variant='contained'>
+                Google Sign In
+              </Button>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleError}
+            cookiePolicy='single_host_origin'
+          />
+    ```
+    - creating the reducer
+    ```javascript
+      // reducer
+      export const AUTH = "AUTH";
+      export default (auth = [], action) => {
+        switch (action.type) {
+          case constants.AUTH:
+            // this is done to set a local storage, so that if we refresh, we will not logout automatically...
+            localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
+            return { ...state, authData: action?.data };
+          default:
+            return false;
+        }
+      };
+    ```
+
+    - Redirection to home page: - for this we use another hook called history from react-router-dom
+    ```javascript
+       const history = useHistory();
+       history.push("/");
+    ```
+
+  - Logout
+    ```javascript
+    // reducer - we will just set the authData to null and re-direct to the client page again
+      case constants.LOGOUT:
+        localStorage.clear();
+        return { ...state, authData: null };
+
+    // use of logout
+    const logout = () => {
+      dispatch({ type: "LOGOUT" });
+
+      history.push("/");
+
+      setUser(null);
+    };
+
+    
+    ```

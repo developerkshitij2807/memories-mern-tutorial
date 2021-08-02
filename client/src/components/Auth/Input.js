@@ -1,0 +1,42 @@
+import React from "react";
+
+import { Grid, IconButton, InputAdornment, TextField } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+
+const Input = (props) => {
+  const handleShowPassword = () => {};
+  return (
+    <Grid item xs={12} sm={props.half ? 6 : 12}>
+      <TextField
+        name={props.name}
+        onChange={props.handleChange}
+        variant='outlined'
+        required
+        fullWidth
+        label={props.label}
+        autoFocus={props.autoFocus}
+        type={props.type}
+        InputProps={
+          props.name === "password"
+            ? {
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton onClick={handleShowPassword}>
+                      {props.type === "password" ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }
+            : null
+        }
+      />
+    </Grid>
+  );
+};
+
+export default Input;
