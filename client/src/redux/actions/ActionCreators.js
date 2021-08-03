@@ -48,3 +48,12 @@ export const incrementLikeCounter = (postId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const signin = (formData, history) => async (dispatch) => {
+  try {
+  } catch (error) {}
+};
+export const signup = (formData, history) => async (dispatch) => {
+  try {
+  } catch (error) {}
+};

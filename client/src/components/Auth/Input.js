@@ -5,7 +5,6 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const Input = (props) => {
-  const handleShowPassword = () => {};
   return (
     <Grid item xs={12} sm={props.half ? 6 : 12}>
       <TextField
@@ -22,7 +21,7 @@ const Input = (props) => {
             ? {
                 endAdornment: (
                   <InputAdornment position='end'>
-                    <IconButton onClick={handleShowPassword}>
+                    <IconButton onClick={props.handleShowPassword}>
                       {props.type === "password" ? (
                         <Visibility />
                       ) : (

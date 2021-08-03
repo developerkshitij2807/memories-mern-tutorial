@@ -16,18 +16,43 @@ import useStyles from "./styles";
 import Input from "./Input";
 
 import { GoogleLogin } from "react-google-login";
-import { useDispatch } from "react-redux";
+
 import Icon from "./Icon";
+
+// redux
+import { useDispatch } from "react-redux";
+import { signin, signup } from "../../redux/actions/ActionCreators";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: ""
+};
 
 const Auth = () => {
   const classes = useStyles();
   const [isSignup, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Submitted Data is:", { formData });
+  };
+  // this method allows us to change one or more fields using the same function
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    if (isSignup) {
+      dispatch(signup(formData, history));
+    } else {
+      dispatch(signin(formData, history));
+    }
+  };
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -43,6 +68,7 @@ const Auth = () => {
     const token = res?.tokenId;
 
     try {
+      // since we are not using any
       dispatch({ type: "AUTH", data: { result, token } });
 
       history.push("/");
