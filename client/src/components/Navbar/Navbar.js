@@ -8,6 +8,8 @@ import memories from "../../images/memories.png";
 
 import { useDispatch } from "react-redux";
 
+import decode from "jwt-decode";
+
 //Google Login
 const Navbar = () => {
   const classes = useStyles();
@@ -17,11 +19,20 @@ const Navbar = () => {
   const history = useHistory();
   const location = useLocation();
 
-  useEffect(() => {
-    const token = user ? user.token : null;
+  useEffect(
+    (logout, user) => {
+      const token = user ? user.token : null;
 
-    setUser(JSON.parse(localStorage.getItem("profile")));
-  }, [location]);
+      if (token) {
+        const decodedToken = decode(token);
+
+        if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+      }
+
+      setUser(JSON.parse(localStorage.getItem("profile")));
+    },
+    [location]
+  );
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });

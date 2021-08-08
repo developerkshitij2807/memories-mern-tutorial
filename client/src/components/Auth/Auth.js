@@ -41,17 +41,15 @@ const Auth = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Submitted Data is:", { formData });
-  };
-  // this method allows us to change one or more fields using the same function
-  const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-
     if (isSignup) {
       dispatch(signup(formData, history));
     } else {
       dispatch(signin(formData, history));
     }
+  };
+  // this method allows us to change one or more fields using the same function
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -77,7 +75,7 @@ const Auth = () => {
     }
   };
   const googleError = () => {
-    console.log("Google Sign In failed, try again later.");
+    alert("Google Sign In failed, try again later.");
   };
 
   return (

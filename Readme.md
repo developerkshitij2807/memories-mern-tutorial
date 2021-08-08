@@ -58,9 +58,9 @@ const PORT = process.env.PORT || 5000;
 mongoose
   .connect(CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then(() =>
-    app.listen(PORT, () => console.log(`Server running on port: ${PORT}`))
+    app.listen(PORT)
   )
-  .catch((error) => console.log(error.message));
+  .catch((error) => console.log(error));
 
 mongoose.set('useFindAndModify', false);
 )
@@ -284,7 +284,7 @@ mongoose.set('useFindAndModify', false);
         const { data } = await api.fetchPosts();
         dispatch({ type: "FETCH_POSTS", payload: data });
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
       }
     };
     ```
@@ -389,7 +389,7 @@ mongoose.set('useFindAndModify', false);
             const { data } = await api.updatePost(postID, updatedPost);
             dispatch({ type: constants.UPDATE_POST, payload: data });
           } catch (error) {
-            console.log(error.message);
+            console.log(error);
           }
         };
       ```
@@ -655,6 +655,84 @@ mongoose.set('useFindAndModify', false);
           console.log(error);
         }
       };
-
-
     ```
+
+  - adding actions to frontend 
+    ```javascript
+       // reducer remains the same as we will just be storing in the local memory
+
+       // actions types and creators
+       export const signin = (formData, history) => async (dispatch) => {
+        try {
+          const { data } = await api.signIn(formData);
+
+          dispatch({ type: constants.AUTH, data });
+
+          history.push("/");
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      export const signup = (formData, history) => async (dispatch) => {
+        try {
+          const {data} = await api.signup(formData);
+
+          dispatch({ type: constants.AUTH, data });
+
+          history.push("/");
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    ```
+#### 3.) Final Setup and Deployment
+  - we will be adding a middleware that will be checking for the authentication while creating, updating and deleting posts
+    ```javascript
+        import jwt from "jsonwebtoken";
+
+        const auth = async (req, res, next) => {
+          try {
+            // getting jwt from frontend
+            const token = req.headers.authorization.split(" ")[1];
+            const isCustomAuth = token.length < 500;
+
+            let decodedData;
+
+            if (token && isCustomAuth) {
+              decodedData = jwt.verify(token, `${process.env.JWT_TOKEN}`);
+
+              req.userId = decodedData.id;
+            } else {
+              decodedData = jwt.decode(token);
+
+              req.userId = decodedData.sub;
+            }
+
+            next();
+          } catch (error) {
+            console.log(error);
+          }
+        };
+
+        export default auth;
+
+        // client/api/index.js => this connects every API call to the authorization
+        API.interceptors.request.use((req) => {
+          if(localStorage.getItem('profile')){
+            req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+          }
+
+          return req;
+        })
+
+
+        // routes updated like this
+        router.patch("/:id", auth, updatePost);
+        // delete method self implemented
+        router.delete("/:id", auth, deletePost);
+        // Like controller
+        router.patch("/:id/likePost", auth, incrementLikeCounter);
+    ```
+
+  - we also did changes so that when a user is logged in he should not be able to delete the post which he did not create and can only like a post once 
+  

@@ -1,14 +1,14 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-import User from "../models/userModel";
+import User from "../models/userModel.js";
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
   try {
     // checking if the user exists or not
-    const existingUser = User.findOne({ email });
-    if (!existingUser)
+    const existingUser = await User.findOne({ email });
+    if (!existingUser.email)
       return res.status(404).json({ message: "User does not exists" });
 
     // password check using bcrypt compare
@@ -21,7 +21,7 @@ export const signin = async (req, res) => {
     if (isPasswordCorrect) {
       const token = jwt.sign(
         { email: existingUser.email, id: existingUser._id },
-        `${procces.env.JWT_TOKEN}`,
+        `${process.env.JWT_TOKEN}`,
         { expiresIn: "1h" }
       );
 
@@ -37,9 +37,11 @@ export const signin = async (req, res) => {
 export const signup = async (req, res) => {
   const { email, password, firstName, lastName, confirmPassword } = req.body;
 
+  
+
   try {
     // if user email exists don't create the user
-    const existingUser = User.findOne({ email });
+    const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
 
@@ -59,7 +61,7 @@ export const signup = async (req, res) => {
 
     const token = jwt.sign(
       { email: result.email, id: result._id },
-      `${procces.env.JWT_TOKEN}`,
+      `${process.env.JWT_TOKEN}`,
       { expiresIn: "1h" }
     );
 

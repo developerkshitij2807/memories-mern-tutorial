@@ -1,18 +1,35 @@
 import axios from "axios";
 
-const url = "https://memories-mern-tutorial-kshitij.herokuapp.com/posts";
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-export const fetchPosts = () => axios.get(url);
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
 
-export const createPost = (newPost) => axios.post(url, newPost);
+  return req;
+});
+
+export const fetchPosts = () => API.get("/posts");
+
+export const createPost = (newPost) => API.post("/posts", newPost);
 
 // Our patch request will recieve an post id and updated data of new post, which will be later updated
 export const updatePost = (postId, updatedPost) =>
-  axios.patch(`${url}/${postId}`, updatedPost);
+  API.patch(`/posts/${postId}`, updatedPost);
 
 // Delete Request
-export const deletePost = (postId) => axios.delete(`${url}/${postId}`);
+export const deletePost = (postId) => API.delete(`/posts/${postId}`);
 
 // patch request
 export const incrementLikeCounter = (postId) =>
-  axios.patch(`${url}/${postId}/likePost`);
+  API.patch(`/posts/${postId}/likePost`);
+
+// authentication routes
+export const signIn = (formData) => API.post("/users/signin", formData);
+
+export const signup = (formData) => {
+  API.post("/users/signup", formData);
+};

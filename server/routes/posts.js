@@ -9,15 +9,17 @@ import {
   incrementLikeCounter
 } from "../controller/posts.js";
 
+import auth from "../middleware/auth.js";
+
 const router = express.Router();
 
 router.get("/", getPosts);
 router.post("/", createPost);
 // colon allows the route to be dynamic
-router.patch("/:id", updatePost);
+router.patch("/:id", auth, updatePost);
 // delete method self implemented
-router.delete("/:id", deletePost);
+router.delete("/:id", auth, deletePost);
 // Like controller
-router.patch("/:id/likePost", incrementLikeCounter);
+router.patch("/:id/likePost", auth, incrementLikeCounter);
 
 export default router;
