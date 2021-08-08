@@ -73,8 +73,8 @@ const Post = (props) => {
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        {(user.result.googleId === props.post.creator ||
-          user.result._id === props.post.creator) && (
+        {(user?.result.googleId === props.post.creator ||
+          user?.result._id === props.post.creator) && (
           <Button
             style={{ color: "white" }}
             size={"small"}
@@ -104,12 +104,12 @@ const Post = (props) => {
         <Button
           size='small'
           color='primary'
-          disabled={!user.result}
+          disabled={!user?.result}
           onClick={() => dispatch(incrementLikeCounter(props.post._id))}>
           <Likes />
         </Button>
-        {(user.result.googleId === props.post.creator ||
-          user.result._id === props.post.creator) && (
+        {(user?.result.googleId === props.post.creator ||
+          user?.result._id === props.post.creator) && (
           <Button
             size='small'
             color='secondary'
