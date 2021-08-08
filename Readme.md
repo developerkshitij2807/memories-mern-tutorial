@@ -2,7 +2,11 @@
 Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media project. This allows users to post interesting events.  
 # Contents 
 - [Project Creation Steps](#project-creation-steps)
-- 
+  - [Initial Setup](#initial-setup)
+    - [Dependencies to be installed](#dependencies-to-be-installed)
+  - [Project Begins](#server-setup)
+  - [Part 2](#dependencies-to-be-installed-1)
+
 ## Project Creation Steps 
 
 
