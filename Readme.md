@@ -1,7 +1,7 @@
 # Project Overview
 Memories is a full stack MERN(MongoDB, Express, React and Node.js) social media project. This allows users to post interesting events.  
 # Contents 
-- [Project Creation Steps]
+- [](#project-creation-steps)
 - 
 ## Project Creation Steps 
 
@@ -735,4 +735,3 @@ mongoose.set('useFindAndModify', false);
     ```
 
   - we also did changes so that when a user is logged in he should not be able to delete the post which he did not create and can only like a post once 
-  
